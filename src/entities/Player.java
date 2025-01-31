@@ -33,14 +33,23 @@ public class Player extends Entity {
 
 	}
 
+
+	int lvlOffset;
+
 	public void update() {
 		updatePos();
 		updateAnimationTick();
 		setAnimation();
 	}
-
 	public void render(Graphics g) {
-		g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset), (int) (hitbox.y - yDrawOffset), width, height, null);
+
+		g.drawImage(
+				animations[playerAction][aniIndex],
+				(int) (hitbox.x - xDrawOffset) - lvlOffset,
+				(int) (hitbox.y - yDrawOffset) - lvlOffset,
+				width,
+				height,
+				null);
 //		drawHitbox(g);
 	}
 
@@ -90,6 +99,14 @@ public class Player extends Entity {
 
 		if (jump)
 			jump();
+
+
+		if (!inAir){
+			if((!left && !right) || (right && left)){
+				return;
+			}
+		}
+
 		if (!left && !right && !inAir)
 			return;
 
